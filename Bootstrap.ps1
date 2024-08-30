@@ -10,8 +10,7 @@ New-Item $DownloadFolder -ItemType directory;
 
 Invoke-WebRequest -Uri $GithubUrl -OutFile $DownloadedFile;
 
-
-#Add-Type -AssemblyName System.IO.Compression.FileSystem;
+Add-Type -AssemblyName System.IO.Compression.FileSystem;
 [System.IO.Compression.ZipFile]::ExtractToDirectory($DownloadedFile, $DownloadFolder);
 
 Push-Location $DotfilesFolder;

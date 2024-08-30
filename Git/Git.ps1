@@ -7,7 +7,7 @@ choco install -y "git" --params "/GitOnlyOnPath /NoAutoCrlf /NoShellIntegration 
 #$GitUserName = Read-Host -Prompt "Input your git username";
 #$GitUserEmail = Read-Host -Prompt "Input your git email";
 
-Copy-Item -Path ./.gitconfig -Destination $HOME
+Copy-Item -Path (Join-Path "Git" ".gitconfig") -Destination $HOME
 
 #git config --global user.name $GitUserName
 #git config --global user.email $GitUserEmail
