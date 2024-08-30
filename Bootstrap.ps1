@@ -12,10 +12,7 @@ Invoke-WebRequest -Uri $GithubUrl -OutFile $DownloadedFile;
 
 
 #Add-Type -AssemblyName System.IO.Compression.FileSystem;
-#[System.IO.Compression.ZipFile]::ExtractToDirectory($DownloadedFile, $DownloadFolder);
-
-Write-Host $DotfilesFolder;
-#$SetupPath = (Join-Path -Path $DownloadFolder -ChildPath "dotfiles-main" | Join-Path -ChildPath "Setup.ps1");
+[System.IO.Compression.ZipFile]::ExtractToDirectory($DownloadedFile, $DownloadFolder);
 
 Push-Location $DotfilesFolder;
 Invoke-Expression (Join-Path $DotfilesFolder "Setup.ps1")
