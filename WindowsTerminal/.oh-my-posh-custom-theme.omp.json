@@ -30,6 +30,7 @@
             "branch_ahead_icon": "<#81A1C1>\u21e1</>",
             "branch_behind_icon": "<#81A1C1>\u21e3</>",
             "branch_identical_icon": "",
+            "branch_gone_icon": "",
             "branch_icon": "",
             "fetch_status": true
           }
