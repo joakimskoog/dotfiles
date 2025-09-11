@@ -32,8 +32,9 @@ if (-not (Test-Path $repo)) {
     Write-Host "$repo already exists"
 }
 
-
-
+Push-Location $repo;
+Invoke-Expression (Join-Path $repo "Setup.ps1")
+Pop-Location
 
 
 

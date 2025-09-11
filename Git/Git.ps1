@@ -1,16 +1,13 @@
-﻿#Install git
-Write-Host "Setting up Git..." -ForegroundColor "Green"
+﻿Write-Host "Configuring Git..." -ForegroundColor "Green"
     
-choco install -y "git" --params "/GitOnlyOnPath /NoAutoCrlf /NoShellIntegration /NoGuiHereIntegration"
-#$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+New-Item -ItemType SymbolicLink `
+    -Path (Join-Path $HOME ".gitconfig") `
+    -Target (Join-Path "Git" ".gitconfig")
 
-#$GitUserName = Read-Host -Prompt "Input your git username";
-#$GitUserEmail = Read-Host -Prompt "Input your git email";
+$GitUserName = Read-Host -Prompt "user.name";
+git config --global user.name $GitUserName
 
-Copy-Item -Path (Join-Path "Git" ".gitconfig") -Destination $HOME
+$GitUserEmail = Read-Host -Prompt "user.email";
+git config --global user.email $GitUserEmail
 
-#git config --global user.name $GitUserName
-#git config --global user.email $GitUserEmail
-
-
-Write-Host "Git setup complete" -ForegroundColor "Green"
+Write-Host "Git configuration done" -ForegroundColor "Green"
