@@ -10,7 +10,7 @@ if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
 
     Write-Host "Chocolatey setup complete" -ForegroundColor "Green"
 } else {
-    Write-Output "Chocolatey already installed"  -ForegroundColor "Green"
+    Write-Host "Chocolatey already installed"  -ForegroundColor "Green"
 }
 
 
@@ -21,17 +21,18 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 
     Write-Host "Git setup complete" -ForegroundColor "Green"
 } else {
-    Write-Output "Git already installed"  -ForegroundColor "Green"
+    Write-Host "Git already installed"  -ForegroundColor "Green"
 }
 
 
 $repo = "$HOME\.dotfiles"
 if (-not (Test-Path $repo)) {
     Write-Host "Cloning .dotfiles repository..." -ForegroundColor "Green"
-    git clone https://github.com/joakimskoog/.dotfiles.git $repo
+    git clone https://github.com/joakimskoog/.dotfiles.git
 } else {
     Write-Host "$repo already exists"
 }
+
 
 
 
