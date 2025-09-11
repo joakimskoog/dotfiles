@@ -1,18 +1,47 @@
-﻿$GithubUrl = "https://github.com/joakimskoog/dotfiles-windows/archive/main.zip";
-$DownloadFolder = Join-Path $env:TEMP "dotfiles"
-$DownloadedFile = Join-Path $DownloadFolder "dotfiles.zip"
-$DotfilesFolder = Join-Path $DownloadFolder "dotfiles-main";
+Set-Location -Path $HOME
+Write-Host "Bootstrapping..." -ForegroundColor "Green"
 
-if (Test-Path $DownloadFolder) {
-  Remove-Item -Path $DownloadFolder -Recurse -Force;
+if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
+    Write-Host "Setting up Chocolatey..." -ForegroundColor "Green"
+    
+    Set-ExecutionPolicy Bypass -Scope Process -Force;
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
+    iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+    Write-Host "Chocolatey setup complete" -ForegroundColor "Green"
+} else {
+    Write-Host "Chocolatey already installed"  -ForegroundColor "Green"
 }
-New-Item $DownloadFolder -ItemType directory;
 
-Invoke-WebRequest -Uri $GithubUrl -OutFile $DownloadedFile;
+if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+    Write-Host "Setting up Git..." -ForegroundColor "Green"
 
-Add-Type -AssemblyName System.IO.Compression.FileSystem;
-[System.IO.Compression.ZipFile]::ExtractToDirectory($DownloadedFile, $DownloadFolder);
+    choco install -y "git" --params "/GitOnlyOnPath /NoAutoCrlf /NoShellIntegration /NoGuiHereIntegration"   
+    #Refresh the path so we can use Git in the same session
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+    
+    Write-Host "Git setup complete" -ForegroundColor "Green"
+} else {
+    Write-Host "Git already installed"  -ForegroundColor "Green"
+}
 
-Push-Location $DotfilesFolder;
-Invoke-Expression (Join-Path $DotfilesFolder "Setup.ps1")
+$repo = "$HOME\.dotfiles"
+if (-not (Test-Path $repo)) {
+    Write-Host "Cloning .dotfiles repository..." -ForegroundColor "Green"
+    git clone https://github.com/joakimskoog/.dotfiles.git $repo
+    Write-Host "Cloned into $repo" -ForegroundColor "Green"
+} else {
+    Write-Host "$repo already exists"
+}
+
+Push-Location $repo;
+Invoke-Expression (Join-Path $repo "Setup.ps1")
 Pop-Location
+
+
+
+
+
+
+
+
