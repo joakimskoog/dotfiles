@@ -1,4 +1,4 @@
-﻿Write-Output "Bootstrapping..." -ForegroundColor "Green"
+﻿Write-Host "Bootstrapping..." -ForegroundColor "Green"
 
 
 if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
@@ -34,6 +34,7 @@ if (-not (Test-Path $repo)) {
 } else {
     Write-Host "$repo already exists"
 }
+
 
 
 
