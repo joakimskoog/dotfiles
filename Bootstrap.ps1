@@ -1,5 +1,5 @@
-﻿Write-Host "Bootstrapping..." -ForegroundColor "Green"
-
+Set-Location -Path $HOME
+Write-Host "Bootstrapping..." -ForegroundColor "Green"
 
 if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
     Write-Host "Setting up Chocolatey..." -ForegroundColor "Green"
@@ -31,6 +31,7 @@ if (-not (Test-Path $repo)) {
 } else {
     Write-Host "$repo already exists"
 }
+
 
 
 
