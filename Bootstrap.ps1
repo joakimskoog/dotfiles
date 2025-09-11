@@ -1,18 +1,34 @@
-﻿$GithubUrl = "https://github.com/joakimskoog/dotfiles-windows/archive/main.zip";
-$DownloadFolder = Join-Path $env:TEMP "dotfiles"
-$DownloadedFile = Join-Path $DownloadFolder "dotfiles.zip"
-$DotfilesFolder = Join-Path $DownloadFolder "dotfiles-main";
+﻿Write-Output "Bootstrapping..." -ForegroundColor "Green"
 
-if (Test-Path $DownloadFolder) {
-  Remove-Item -Path $DownloadFolder -Recurse -Force;
+
+if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
+    Write-Host "Setting up Chocolatey..." -ForegroundColor "Green"
+    
+    Set-ExecutionPolicy Bypass -Scope Process -Force;
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
+    iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+    Write-Host "Chocolatey setup complete" -ForegroundColor "Green"
+} else {
+    Write-Output "Chocolatey already installed"  -ForegroundColor "Green"
 }
-New-Item $DownloadFolder -ItemType directory;
 
-Invoke-WebRequest -Uri $GithubUrl -OutFile $DownloadedFile;
 
-Add-Type -AssemblyName System.IO.Compression.FileSystem;
-[System.IO.Compression.ZipFile]::ExtractToDirectory($DownloadedFile, $DownloadFolder);
+if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+    Write-Host "Setting up Git..." -ForegroundColor "Green"
 
-Push-Location $DotfilesFolder;
-Invoke-Expression (Join-Path $DotfilesFolder "Setup.ps1")
-Pop-Location
+    choco install -y "git" --params "/GitOnlyOnPath /NoAutoCrlf /NoShellIntegration /NoGuiHereIntegration"
+
+    Write-Host "Git setup complete" -ForegroundColor "Green"
+} else {
+    Write-Output "Git already installed"  -ForegroundColor "Green"
+}
+
+
+$repo = "$HOME\.dotfiles"
+if (-not (Test-Path $repo)) {
+    Write-Host "Cloning .dotfiles repository..." -ForegroundColor "Green"
+} else {
+    Write-Host "$repo already exists"
+}
+
