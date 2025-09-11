@@ -16,8 +16,10 @@ if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
     Write-Host "Setting up Git..." -ForegroundColor "Green"
 
-    choco install -y "git" --params "/GitOnlyOnPath /NoAutoCrlf /NoShellIntegration /NoGuiHereIntegration"
-
+    choco install -y "git" --params "/GitOnlyOnPath /NoAutoCrlf /NoShellIntegration /NoGuiHereIntegration"   
+    #Refresh the path so we can use Git in the same session
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+    
     Write-Host "Git setup complete" -ForegroundColor "Green"
 } else {
     Write-Host "Git already installed"  -ForegroundColor "Green"
@@ -35,6 +37,7 @@ if (-not (Test-Path $repo)) {
 Push-Location $repo;
 Invoke-Expression (Join-Path $repo "Setup.ps1")
 Pop-Location
+
 
 
 
