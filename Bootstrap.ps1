@@ -28,9 +28,10 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 $repo = "$HOME\.dotfiles"
 if (-not (Test-Path $repo)) {
     Write-Host "Cloning .dotfiles repository..." -ForegroundColor "Green"
-    git clone https://github.com/joakimskoog/.dotfiles.git
+    git clone https://github.com/joakimskoog/.dotfiles.git $repo
 } else {
     Write-Host "$repo already exists"
 }
+
 
 
