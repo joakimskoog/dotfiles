@@ -1,5 +1,5 @@
 clear
-. $HOME\.dotfiles/splash.ps1
+. $HOME/.dotfiles/splash.ps1
 
 echo "`nStarting bootstrap..."
 # Install Git for windows because Git is not preinstalled on Windows
@@ -23,4 +23,4 @@ if ($repoBranch -ne "main") {
 }
 
 echo "Installing..."
-. $repoFolder\install.ps1
+. $HOME/.dotfiles/install.ps1
