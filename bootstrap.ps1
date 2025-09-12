@@ -8,10 +8,9 @@ winget install --id Git.Git -e --source winget --accept-package-agreements --acc
 # Refresh the PATH so we can use Git in the current session
 $env:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 
-
 $repo = "https://github.com/joakimskoog/.dotfiles.git"
-$repoBranch = "new-bootstrap"
-$repoFolder = "$HOME/.dotfiles3"
+$repoBranch = "rework"
+$repoFolder = "$HOME/.dotfiles"
 
 echo "Cloning from $repo into $repoFolder"
 git clone $repo $repoFolder *> $null
