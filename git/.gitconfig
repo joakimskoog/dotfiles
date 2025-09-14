@@ -1,0 +1,10 @@
+[alias]
+	cm = commit -m
+	co = checkout
+	cob = checkout -b
+	ls = log --oneline --decorate --color
+	st = status -s
+[core]
+	editor = nvim
+[pull]
+	rebase = true
